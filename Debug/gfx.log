@@ -1,0 +1,7 @@
+﻿  window.cpp
+window.obj : error LNK2019: unresolved external symbol __imp__InitWindow referenced in function _main
+window.obj : error LNK2019: unresolved external symbol __imp__WindowShouldClose referenced in function _main
+window.obj : error LNK2019: unresolved external symbol __imp__CloseWindow referenced in function _main
+window.obj : error LNK2019: unresolved external symbol __imp__ClearBackground referenced in function _main
+window.obj : error LNK2019: unresolved external symbol __imp__SetTargetFPS referenced in function _main
+D:\TIAGO\program\chessers\gfx\Debug\gfx.exe : fatal error LNK1120: 5 unresolved externals
