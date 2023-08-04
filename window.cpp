@@ -12,6 +12,7 @@ const int tileSize = 70;
 const Color 
 	whiteColor = Color{ 118, 150, 86, 255 }, 
 	blackColor = Color{ 238, 238, 210, 255 },
+	legalColor = YELLOW,
 	highlightColor = RED;
 
 Texture2D pieceSprite;
@@ -24,6 +25,7 @@ Chess chess= Chess();
 // Current pieces
 std::vector<Utils::ChessPiece> myPieces;
 
+std::vector<Vector2> legalMoves;
 Vector2 highlight = Vector2{-1, -1};
 void checkForClicks() {
 
@@ -40,9 +42,9 @@ void checkForClicks() {
 			};
 
 			// Move
-			std::cout << highlight.x;
 			myPieces = chess.effectuateMove(myPieces, highlight, target);
 
+			legalMoves.clear();
 			highlight = Vector2{ -1, -1 };
 			return;
 		}
@@ -52,10 +54,11 @@ void checkForClicks() {
 			floor(mouse.y / tileSize),
 		};
 
+		legalMoves = utils.getAllLegalPieceMoves(myPieces, highlight);
 		if (!chess.isSquareOccupied(myPieces, highlight)) highlight = savedHighlight;
 	}
 
-	if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) highlight = Vector2{ -1, -1 };
+	if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) { highlight = Vector2{ -1, -1 }; legalMoves.clear();}
 }
 
 void chessboard() {
@@ -65,6 +68,12 @@ void chessboard() {
 
 			Color col = (i + j) % 2 == 0 ? whiteColor : blackColor;
 			if (i == int(highlight.x) && j == int(highlight.y)) col = highlightColor;
+
+			for (Vector2 pos : legalMoves)
+				if (i == int(pos.x) && j == int(pos.y)) {
+					col = legalColor;
+					break;
+				}
 
 			DrawRectangle(
 				i * tileSize, 
@@ -141,6 +150,7 @@ int main() {
 		chessboard();
 
 		DrawText("Chessboard interface", tileSize * boardSize + 5, 10, 20, LIGHTGRAY);
+		DrawText(Chess::turn ? "White to move" : "Black to move", tileSize * boardSize + 5, 32, 16, WHITE);
 
 		EndDrawing();
 	}
