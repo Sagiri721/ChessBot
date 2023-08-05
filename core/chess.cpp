@@ -8,6 +8,7 @@
 
 Utils c_utils = Utils();
 bool Chess::turn = true;
+std::vector<std::string> Chess::history;
 
 // Start masks
 bool Chess::occupationMask[8][8];
@@ -37,6 +38,21 @@ std::vector<Utils::ChessPiece> Chess::effectuateMove(std::vector<Utils::ChessPie
 			currentPiece = c_utils.findPieceIndexFromPosition(pieces, origin);
 		}
 
+	// Update move history
+	c_utils.updateMoveHistory(pieces, origin, move);
+
+	//Update move
+	//Check if castling
+	if ((pieces.at(currentPiece).index == 0 || pieces.at(currentPiece).index == 6) && abs(int(move.x) - int(origin.x)) == 2) {
+
+		std::cout << "castlin";
+
+		// Update counterpart rook position
+		int xx = int(move.x) == 2 ? 0 : 7;
+		int rookIndex = c_utils.findPieceIndexFromPosition(pieces, Vector2{ float(xx), origin.y });
+
+		pieces.at(rookIndex).position = Vector2{ move.x + (int(move.x) == 2 ? 1 : -1), move.y};
+	}
 	pieces.at(currentPiece).position = move;
 	if(!pieces.at(currentPiece).moved)	pieces.at(currentPiece).moved = true;
 

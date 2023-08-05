@@ -66,7 +66,7 @@ void chessboard() {
 	for (int i = 0; i < boardSize; i++)
 		for (int j = 0; j < boardSize; j++) {
 
-			Color col = (i + j) % 2 == 0 ? whiteColor : blackColor;
+			Color col = (i + j) % 2 == 0 ? blackColor: whiteColor;
 			if (i == int(highlight.x) && j == int(highlight.y)) col = highlightColor;
 
 			for (Vector2 pos : legalMoves)

@@ -6,7 +6,7 @@ class Utils {
 
 	public:
 
-		const std::string startPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+		const std::string startPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RN2KBNR";
 
 		struct ChessPiece {
 
@@ -21,6 +21,7 @@ class Utils {
 
 		std::vector<ChessPiece> parseFenStringToBoardInformation(std::string);
 		std::vector<Vector2> parseStringNotationToMove(std::string);
+		std::string parseMoveToStringNotation(std::vector<Utils::ChessPiece>, Vector2, Vector2);
 
 		int findPieceIndexFromPosition(std::vector<Utils::ChessPiece>, Vector2);
 		
@@ -30,4 +31,5 @@ class Utils {
 		std::vector<Vector2> getAllLegalPieceMoves(std::vector<Utils::ChessPiece>, Vector2);
 
 		void updateOccupationMask(std::vector<Utils::ChessPiece>);
+		void updateMoveHistory(std::vector<Utils::ChessPiece>, Vector2, Vector2);
 };

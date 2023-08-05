@@ -24,6 +24,10 @@ std::vector<std::string> split(std::string s, std::string delimiter) {
     return res;
 }
 
+template <typename T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
+
 std::vector<Utils::ChessPiece> Utils::parseFenStringToBoardInformation(std::string fenString) {
 
 	std::cout << "Parsing " << fenString << std::endl << std::endl;
@@ -133,6 +137,46 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
             found.push_back(Vector2{ originPiece->position.x - 1, originPiece->position.y - 1 });
             found.push_back(Vector2{ originPiece->position.x, originPiece->position.y - 1 });
             found.push_back(Vector2{ originPiece->position.x, originPiece->position.y + 1 });
+
+            if (!originPiece->moved) {
+
+                // Castling
+                int xx = originPiece->position.x, yy = originPiece->position.y;
+
+                bool distance = int(originPiece->position.x) == 4;
+
+                ChessPiece* longRook = findPieceFromPosition(pieces, Vector2{float(distance ? 0 : 7), originPiece->position.y});
+                // Long
+                bool flag = false;
+                if (longRook != NULL && !longRook->moved) {
+
+                    // Check if squares are occupied
+                    //std::cout << abs(longRook->position.x - xx) << " " << 1 * (sgn(longRook->position.x - xx));
+                    int changeRate = (sgn(longRook->position.x - xx));
+
+                    for (int i = xx; i != xx + abs(longRook->position.x - xx) * (sgn(longRook->position.x - xx)); i = i + 1 * changeRate) {
+
+                        if (i < 0 || i >= 8) break;
+                        if (i == 0 || i == 7 || i == origin.x) continue;
+
+                        if (u_chess.isSquareOccupied(pieces, Vector2{ float(i), float(yy) })) {
+                            
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if(!flag) found.push_back(Vector2{ float(xx + (distance ? -2 : 2)), float(yy) });
+                }
+
+                flag = false;
+                ChessPiece* shortRook = findPieceFromPosition(pieces, Vector2{ float(distance ? 7 : 0), originPiece->position.y });
+                // Short
+                if (shortRook != NULL && !shortRook->moved) { 
+
+                    // Check if squares are occupied
+                    found.push_back(Vector2{ float(xx + (distance ? 2 : -2)), float(yy) });
+                }
+            }
 
             break;
         case 4:
@@ -290,4 +334,27 @@ void Utils::updateOccupationMask(std::vector<Utils::ChessPiece> pieces) {
     }
 
     //for (int i = 0; i < 8; i++) { for (int j = 0; j < 8; j++) { std::cout << Chess::colorMask[j][i] << " "; } std::cout << std::endl; }
+}
+
+const std::string pieceNames[] = { "K", "Q", "B", "N", "R", ""};
+std::string Utils::parseMoveToStringNotation(std::vector<Utils::ChessPiece> pieces, Vector2 origin, Vector2 move) {
+
+    // Get the piece
+    ChessPiece piece = *findPieceFromPosition(pieces, origin);
+
+    // get the new row / column
+    std::string row = std::to_string(int(8 - move.y));
+    char column = 97 + move.x;
+
+    int pieceIndex = piece.index >= 6 ? piece.index - 6 : piece.index;
+
+    return (pieceNames[pieceIndex] + column + row);
+}
+
+void Utils::updateMoveHistory(std::vector<Utils::ChessPiece> pieces, Vector2 origin, Vector2 move) {
+
+    std::string moveString = parseMoveToStringNotation(pieces, origin, move);
+    Chess::history.push_back(moveString);
+
+    std::cout << "[MOVE] " << moveString << " was just played" << std::endl; 
 }
