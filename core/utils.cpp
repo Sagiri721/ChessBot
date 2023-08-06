@@ -114,13 +114,19 @@ std::vector<Utils::ChessPiece> Utils::findPiecesFromPieceIndex(std::vector<Utils
     return found;
 }
 
-std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece> pieces, Vector2 origin) {
+Utils::ChessPiece* Utils::findFirstPieceFromPieceIndex(std::vector<Utils::ChessPiece> pieces, int index) {
+
+    for (Utils::ChessPiece p : pieces) if (p.index == index) return &p;
+    return NULL;
+}
+
+std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece> pieces, Vector2 origin, bool attackers=false) {
 
     std::vector<Vector2> found;
 
     Utils::ChessPiece* originPiece = findPieceFromPosition(pieces, origin);
     if (originPiece == NULL) return found;
-    if (originPiece->color == Chess::turn) return found;
+    if (originPiece->color == Chess::turn && !attackers) return found;
 
     int index = 0;
     bool blocked[] = {false, false, false, false};
@@ -138,7 +144,7 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
             found.push_back(Vector2{ originPiece->position.x, originPiece->position.y - 1 });
             found.push_back(Vector2{ originPiece->position.x, originPiece->position.y + 1 });
 
-            if (!originPiece->moved) {
+            if (!originPiece->moved && !attackers) {
 
                 // Castling
                 int xx = originPiece->position.x, yy = originPiece->position.y;
@@ -174,7 +180,20 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
                 if (shortRook != NULL && !shortRook->moved) { 
 
                     // Check if squares are occupied
-                    found.push_back(Vector2{ float(xx + (distance ? 2 : -2)), float(yy) });
+                    int changeRate = (sgn(shortRook->position.x - xx));
+
+                    for (int i = xx; i != xx + abs(shortRook->position.x - xx) * (sgn(shortRook->position.x - xx)); i = i + 1 * changeRate) {
+
+                        if (i < 0 || i >= 8) break;
+                        if (i == 0 || i == 7 || i == origin.x) continue;
+
+                        if (u_chess.isSquareOccupied(pieces, Vector2{ float(i), float(yy) })) {
+
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (!flag) found.push_back(Vector2{ float(xx + (distance ? -2 : 2)), float(yy) });
                 }
             }
 
@@ -293,9 +312,12 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
         case 5:
         case 11:
 
-            found.push_back(Vector2{ originPiece->position.x, originPiece->position.y + (1 * originPiece->color ? 1: -1) });
-            if(!originPiece->moved) found.push_back(Vector2{ originPiece->position.x, originPiece->position.y + (1 * originPiece->color ? 2 : -2) });
+            if (!attackers) {
 
+                found.push_back(Vector2{ originPiece->position.x, originPiece->position.y + (1 * originPiece->color ? 1: -1) });
+                if(!originPiece->moved && !Chess::occupationMask[int(originPiece->position.x)][int(originPiece->position.y) + (1 * originPiece->color ? 2 : -2)]) found.push_back(Vector2{originPiece->position.x, originPiece->position.y + (1 * originPiece->color ? 2 : -2)});
+
+            }
             // Add pawn capture squares
             if(Chess::occupationMask[int(originPiece->position.x + 1)][int(originPiece->position.y + (1 * originPiece->color ? 1 : -1))]) 
                 found.push_back(Vector2{ originPiece->position.x + 1, originPiece->position.y + (1 * originPiece->color ? 1 : -1) });
@@ -313,10 +335,37 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
         if (position.x < 0 || position.x >= 8) continue;
         if (position.y < 0 || position.y >= 8) continue;
 
-        if (Chess::occupationMask[int(position.x)][int(position.y)] && Chess::colorMask[int(position.x)][int(position.y)] != Chess::turn) continue;
+        //if (Chess::colorMask[int(position.x)][int(position.y)] == Chess::turn) continue;
+
+        if (!attackers) {
+
+            //Don't permit moves that don't take you out of check
+            std::vector<ChessPiece> simulation = pieces;
+            int index = findPieceIndexFromPosition(simulation, origin);
+            int targetPosition = findPieceIndexFromPosition(simulation, position);
+
+            if (targetPosition != -1)
+                if (simulation.at(index).color != simulation.at(targetPosition).color)
+                {
+                    simulation.erase(simulation.begin() + targetPosition);
+                    index = findPieceIndexFromPosition(simulation, origin);
+                }
+                
+            simulation.at(index).position = position;
+            updateOccupationMask(simulation);
+
+            ChessPiece myKing = findPiecesFromPieceIndex(simulation, Chess::turn ? 0 : 6)[0];
+            //std::cout << "defending king" << myKing.index << " " << myKing.position.x<< " "<<myKing.position.y; 
+
+            if (u_chess.isSquareAttacked(simulation, myKing.position, Chess::turn)) {
+                continue;
+            }
+        }
 
         cropped.push_back(position);
     }
+
+    updateOccupationMask(pieces);
 
     return cropped;
 }

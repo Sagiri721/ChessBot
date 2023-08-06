@@ -54,7 +54,7 @@ void checkForClicks() {
 			floor(mouse.y / tileSize),
 		};
 
-		legalMoves = utils.getAllLegalPieceMoves(myPieces, highlight);
+		legalMoves = utils.getAllLegalPieceMoves(myPieces, highlight, false);
 		if (!chess.isSquareOccupied(myPieces, highlight)) highlight = savedHighlight;
 	}
 
@@ -151,6 +151,7 @@ int main() {
 
 		DrawText("Chessboard interface", tileSize * boardSize + 5, 10, 20, LIGHTGRAY);
 		DrawText(Chess::turn ? "White to move" : "Black to move", tileSize * boardSize + 5, 32, 16, WHITE);
+		DrawText(Chess::wCheck ? "WHITE KING IN CHECK" : (Chess::bCheck ? "BLACK KING IN CHECK": ""), tileSize * boardSize + 5, 50, 16, RED);
 
 		EndDrawing();
 	}

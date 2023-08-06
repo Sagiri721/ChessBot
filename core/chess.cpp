@@ -7,8 +7,11 @@
 #include "utils.h"
 
 Utils c_utils = Utils();
-bool Chess::turn = true;
 std::vector<std::string> Chess::history;
+
+bool Chess::turn = true;
+bool Chess::wCheck = false;
+bool Chess::bCheck = false;
 
 // Start masks
 bool Chess::occupationMask[8][8];
@@ -38,25 +41,33 @@ std::vector<Utils::ChessPiece> Chess::effectuateMove(std::vector<Utils::ChessPie
 			currentPiece = c_utils.findPieceIndexFromPosition(pieces, origin);
 		}
 
+	if (pieces.at(currentPiece).index == 0 || pieces.at(currentPiece).index == 6) {
+
+		//Check if castling
+		if (abs(int(move.x) - int(origin.x)) == 2) {
+
+			// Update counterpart rook position
+			int xx = int(move.x) == 2 ? 0 : 7;
+			int rookIndex = c_utils.findPieceIndexFromPosition(pieces, Vector2{ float(xx), origin.y });
+
+			pieces.at(rookIndex).position = Vector2{ move.x + (int(move.x) == 2 ? 1 : -1), move.y };
+		}
+	}
+
 	// Update move history
 	c_utils.updateMoveHistory(pieces, origin, move);
 
-	//Update move
-	//Check if castling
-	if ((pieces.at(currentPiece).index == 0 || pieces.at(currentPiece).index == 6) && abs(int(move.x) - int(origin.x)) == 2) {
-
-		std::cout << "castlin";
-
-		// Update counterpart rook position
-		int xx = int(move.x) == 2 ? 0 : 7;
-		int rookIndex = c_utils.findPieceIndexFromPosition(pieces, Vector2{ float(xx), origin.y });
-
-		pieces.at(rookIndex).position = Vector2{ move.x + (int(move.x) == 2 ? 1 : -1), move.y};
-	}
 	pieces.at(currentPiece).position = move;
 	if(!pieces.at(currentPiece).moved)	pieces.at(currentPiece).moved = true;
 
 	c_utils.updateOccupationMask(pieces);
+
+	// Check if check
+	Utils::ChessPiece w_king = c_utils.findPiecesFromPieceIndex(pieces, 0)[0];
+	Utils::ChessPiece b_king = c_utils.findPiecesFromPieceIndex(pieces, 6)[0];
+
+	Chess::wCheck = isInCheck(pieces, !w_king.color);
+	Chess::bCheck = isInCheck(pieces, !b_king.color);
 
 	turn = !turn;
 	return pieces;
@@ -64,22 +75,35 @@ std::vector<Utils::ChessPiece> Chess::effectuateMove(std::vector<Utils::ChessPie
 
 bool Chess::isMovelLegal(std::vector<Utils::ChessPiece> pieces, Vector2 origin, Vector2 move) {
 
-	std::vector<Vector2> legalMoves = c_utils.getAllLegalPieceMoves(pieces, origin);
+	std::vector<Vector2> legalMoves = c_utils.getAllLegalPieceMoves(pieces, origin, false);
 	for (Vector2 pos : legalMoves) if (pos.x == move.x && pos.y == move.y) return true;
 	
 	return false;
 }
 
-Utils::ChessPiece* Chess::isInCheck(std::vector<Utils::ChessPiece> pieces) {
+bool Chess::isInCheck(std::vector<Utils::ChessPiece> pieces, bool color) {
 
-	std::vector<Utils::ChessPiece> w_kings = c_utils.findPiecesFromPieceIndex(pieces, 0);
-	std::vector<Utils::ChessPiece> b_kings = c_utils.findPiecesFromPieceIndex(pieces, 6);
+	std::vector<Utils::ChessPiece> king = c_utils.findPiecesFromPieceIndex(pieces, color ? 0 : 6);
 
-	w_kings.insert(w_kings.end(), b_kings.begin(), b_kings.end());
-	for (Utils::ChessPiece king : w_kings) {
+	bool checked = isSquareAttacked(pieces, king[0].position, !king[0].color);
+	//std::cout << "king: " << king[0].position.x << " " << king[0].position.y << ", " << checked << "\n";
 
-		// Check if king is in any capture mask
+	return checked;
+}
+
+bool Chess::isSquareAttacked(std::vector<Utils::ChessPiece> pieces, Vector2 square, bool color) {
+
+	for (Utils::ChessPiece piece : pieces) {
+
+		if (piece.color == color) {
+
+			std::vector<Vector2> moves = c_utils.getAllLegalPieceMoves(pieces, piece.position, true);
+			//std::cout << "Move length " << moves.size()<< "\n";
+			for (Vector2 move : moves) { 
+				//std::cout << "move: " << move.x << ", " << move.y << "\n";
+				if (int(move.x) == square.x && int(move.y) == square.y) return true;}
+		}
 	}
 
-	return NULL;
+	return false;
 }

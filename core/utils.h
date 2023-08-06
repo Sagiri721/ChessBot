@@ -26,9 +26,11 @@ class Utils {
 		int findPieceIndexFromPosition(std::vector<Utils::ChessPiece>, Vector2);
 		
 		ChessPiece* findPieceFromPosition(std::vector<Utils::ChessPiece>, Vector2);
+
+		ChessPiece* findFirstPieceFromPieceIndex(std::vector<Utils::ChessPiece>, int);
 		std::vector<ChessPiece> findPiecesFromPieceIndex(std::vector<Utils::ChessPiece>, int);
 
-		std::vector<Vector2> getAllLegalPieceMoves(std::vector<Utils::ChessPiece>, Vector2);
+		std::vector<Vector2> getAllLegalPieceMoves(std::vector<Utils::ChessPiece>, Vector2, bool);
 
 		void updateOccupationMask(std::vector<Utils::ChessPiece>);
 		void updateMoveHistory(std::vector<Utils::ChessPiece>, Vector2, Vector2);
