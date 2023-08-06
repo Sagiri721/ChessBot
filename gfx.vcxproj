@@ -141,6 +141,7 @@
     <Image Include="resources\pieces.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\core.h" />
     <ClInclude Include="core\utils.h" />
     <ClInclude Include="headers\chess.h" />
   </ItemGroup>

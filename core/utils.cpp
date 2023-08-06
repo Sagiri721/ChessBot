@@ -120,13 +120,13 @@ Utils::ChessPiece* Utils::findFirstPieceFromPieceIndex(std::vector<Utils::ChessP
     return NULL;
 }
 
-std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece> pieces, Vector2 origin, bool attackers=false) {
+std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece> pieces, Vector2 origin, bool attackers=false, bool bypass=false) {
 
     std::vector<Vector2> found;
 
     Utils::ChessPiece* originPiece = findPieceFromPosition(pieces, origin);
     if (originPiece == NULL) return found;
-    if (originPiece->color == Chess::turn && !attackers) return found;
+    if (originPiece->color == Chess::turn && !attackers && !bypass) return found;
 
     int index = 0;
     bool blocked[] = {false, false, false, false};

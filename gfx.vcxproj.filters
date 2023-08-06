@@ -43,5 +43,8 @@
     <ClInclude Include="core\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

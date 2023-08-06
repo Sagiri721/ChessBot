@@ -2,9 +2,11 @@
 #include <raylib.h>
 #include <string>
 #include <vector>
+#include <tuple>
 
 #include "core/utils.h"
 #include "core/chess.h"
+#include "core/core.h"
 
 const int boardSize = 8;
 const int tileSize = 70;
@@ -46,6 +48,15 @@ void checkForClicks() {
 
 			legalMoves.clear();
 			highlight = Vector2{ -1, -1 };
+
+			if (!Chess::turn) {
+
+				// Get bot's move
+				std::tuple<Vector2, Vector2> move = Core::next(myPieces, !Chess::turn);
+
+				myPieces = chess.effectuateMove(myPieces, std::get<0>(move), std::get<1>(move));
+			}
+
 			return;
 		}
 
@@ -54,7 +65,7 @@ void checkForClicks() {
 			floor(mouse.y / tileSize),
 		};
 
-		legalMoves = utils.getAllLegalPieceMoves(myPieces, highlight, false);
+		legalMoves = utils.getAllLegalPieceMoves(myPieces, highlight, false, false);
 		if (!chess.isSquareOccupied(myPieces, highlight)) highlight = savedHighlight;
 	}
 
@@ -71,6 +82,7 @@ void chessboard() {
 
 			for (Vector2 pos : legalMoves)
 				if (i == int(pos.x) && j == int(pos.y)) {
+
 					col = legalColor;
 					break;
 				}

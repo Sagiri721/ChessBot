@@ -75,7 +75,7 @@ std::vector<Utils::ChessPiece> Chess::effectuateMove(std::vector<Utils::ChessPie
 
 bool Chess::isMovelLegal(std::vector<Utils::ChessPiece> pieces, Vector2 origin, Vector2 move) {
 
-	std::vector<Vector2> legalMoves = c_utils.getAllLegalPieceMoves(pieces, origin, false);
+	std::vector<Vector2> legalMoves = c_utils.getAllLegalPieceMoves(pieces, origin, false, false);
 	for (Vector2 pos : legalMoves) if (pos.x == move.x && pos.y == move.y) return true;
 	
 	return false;
@@ -97,7 +97,7 @@ bool Chess::isSquareAttacked(std::vector<Utils::ChessPiece> pieces, Vector2 squa
 
 		if (piece.color == color) {
 
-			std::vector<Vector2> moves = c_utils.getAllLegalPieceMoves(pieces, piece.position, true);
+			std::vector<Vector2> moves = c_utils.getAllLegalPieceMoves(pieces, piece.position, true, false);
 			//std::cout << "Move length " << moves.size()<< "\n";
 			for (Vector2 move : moves) { 
 				//std::cout << "move: " << move.x << ", " << move.y << "\n";
