@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\TIAGO\program\chessers\gfx\gfx\core\</FILEPATH>
+      <FILENAME>chess.cpp</FILENAME>
+      <LINE>24</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>26817</DEFECTCODE>
+    <DESCRIPTION>Potentially expensive copy of variable 'piece' in range-for loop. Consider making it a const reference (es.71).</DESCRIPTION>
+    <FUNCTION>Chess::isSquareOccupied</FUNCTION>
+    <DECORATED>?isSquareOccupied@Chess@@QEAA_NV?$vector@UChessPiece@Utils@@V?$allocator@UChessPiece@Utils@@@std@@@std@@UVector2@@@Z</DECORATED>
+    <FUNCLINE>22</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\TIAGO\program\chessers\gfx\gfx\core\</FILEPATH>
+      <FILENAME>chess.cpp</FILENAME>
+      <LINE>101</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>26817</DEFECTCODE>
+    <DESCRIPTION>Potentially expensive copy of variable 'piece' in range-for loop. Consider making it a const reference (es.71).</DESCRIPTION>
+    <FUNCTION>Chess::isSquareAttacked</FUNCTION>
+    <DECORATED>?isSquareAttacked@Chess@@QEAA_NV?$vector@UChessPiece@Utils@@V?$allocator@UChessPiece@Utils@@@std@@@std@@UVector2@@_N@Z</DECORATED>
+    <FUNCLINE>99</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

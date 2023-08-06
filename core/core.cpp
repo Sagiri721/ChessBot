@@ -48,7 +48,14 @@ std::tuple<Vector2, Vector2> Core::next(std::vector<Utils::ChessPiece> pieces, b
         }
     }
 
-    //Seed random
+    if(moves.size() != 0)
+    {
+        return moves.at(randomFrom<int>(0, moves.size()-1));
+    }
+    else
+    {
 
-    return moves.at(randomFrom<int>(0, moves.size()-1));
+        Chess::end = "Black king was checkmated\nPress r to play again";
+        return std::make_tuple(Vector2{0,0}, Vector2{0,0});
+    }
 }

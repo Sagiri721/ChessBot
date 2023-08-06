@@ -6,6 +6,7 @@ class Chess {
 public:
 
 	static bool turn, wCheck, bCheck;
+	static std::string end;
 
 	static bool occupationMask[8][8];
 	static int colorMask[8][8];
@@ -18,4 +19,6 @@ public:
 
 	bool isInCheck(std::vector<Utils::ChessPiece>, bool);
 	bool isSquareAttacked(std::vector<Utils::ChessPiece>, Vector2, bool);
+
+	void checkForMates(std::vector<Utils::ChessPiece>);
 };

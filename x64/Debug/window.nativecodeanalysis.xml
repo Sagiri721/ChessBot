@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\TIAGO\program\chessers\gfx\gfx\</FILEPATH>
+      <FILENAME>window.cpp</FILENAME>
+      <LINE>99</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>26817</DEFECTCODE>
+    <DESCRIPTION>Potentially expensive copy of variable 'piece' in range-for loop. Consider making it a const reference (es.71).</DESCRIPTION>
+    <FUNCTION>chessboard</FUNCTION>
+    <DECORATED>?chessboard@@YAXXZ</DECORATED>
+    <FUNCLINE>75</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\TIAGO\program\chessers\gfx\gfx\</FILEPATH>
+      <FILENAME>window.cpp</FILENAME>
+      <LINE>137</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>26817</DEFECTCODE>
+    <DESCRIPTION>Potentially expensive copy of variable 'p' in range-for loop. Consider making it a const reference (es.71).</DESCRIPTION>
+    <FUNCTION>placePieces</FUNCTION>
+    <DECORATED>?placePieces@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z</DECORATED>
+    <FUNCLINE>132</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

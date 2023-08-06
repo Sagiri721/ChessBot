@@ -1,1 +1,3 @@
 D:\TIAGO\program\chessers\gfx\gfx\x64\Debug\gfx.vcxproj.CopyComplete
+D:\TIAGO\program\chessers\gfx\x64\Debug\chessbot.exe.lastcodeanalysissucceeded
+D:\TIAGO\program\chessers\gfx\gfx\x64\Debug\NativeCodeAnalysis.read.1.tlog

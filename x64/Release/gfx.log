@@ -1,0 +1,24 @@
+﻿  chess.cpp
+D:\TIAGO\program\chessers\gfx\gfx\core\chess.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\TIAGO\program\chessers\gfx\gfx\core\chess.cpp(8,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  core.cpp
+D:\TIAGO\program\chessers\gfx\gfx\core\chess.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\TIAGO\program\chessers\gfx\gfx\core\core.cpp(53,56): warning C4267: 'argument': conversion from 'size_t' to 'const T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  utils.cpp
+D:\TIAGO\program\chessers\gfx\gfx\core\chess.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\TIAGO\program\chessers\gfx\gfx\core\utils.cpp(150,24): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\TIAGO\program\chessers\gfx\gfx\core\utils.cpp(150,54): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\TIAGO\program\chessers\gfx\gfx\core\utils.cpp(396,17): warning C4244: 'initializing': conversion from 'float' to 'char', possible loss of data
+  glut_window.cpp
+  window.cpp
+D:\TIAGO\program\chessers\gfx\gfx\core\chess.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+D:\TIAGO\program\chessers\gfx\gfx\core\utils.cpp(105): warning C4172: returning address of local variable or temporary: p
+  All 504 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  gfx.vcxproj -> D:\TIAGO\program\chessers\gfx\x64\Release\chessbot.exe

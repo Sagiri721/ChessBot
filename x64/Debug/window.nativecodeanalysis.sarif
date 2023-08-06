@@ -1,0 +1,125 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C26817",
+          "message": {
+            "text": "Potentially expensive copy of variable 'piece' in range-for loop. Consider making it a const reference (es.71)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/TIAGO/program/chessers/gfx/gfx/window.cpp"
+                },
+                "region": {
+                  "startLine": 99,
+                  "startColumn": 25,
+                  "endLine": 99,
+                  "endColumn": 25
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "chessboard",
+                  "decoratedName": "?chessboard@@YAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26817",
+          "message": {
+            "text": "Potentially expensive copy of variable 'p' in range-for loop. Consider making it a const reference (es.71)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/TIAGO/program/chessers/gfx/gfx/window.cpp"
+                },
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 25,
+                  "endLine": 137,
+                  "endColumn": 25
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "placePieces",
+                  "decoratedName": "?placePieces@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.36.32537.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///D:/TIAGO/program/chessers/gfx/gfx/window.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "3ff00bbb15ad41bf8b76dfc68b48d4116badabc357fe13721ba6a0890d189b29"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/vcpkg-master/vcpkg-master/installed/x64-windows/include/raylib.h"
+          },
+          "hashes": {
+            "sha-256": "ba91b51ec5eebd8fd2d97951ea1f95785e946dc4925a29ea1ef30d4cf10c748e"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/tiago/program/chessers/gfx/gfx/core/utils.h"
+          },
+          "hashes": {
+            "sha-256": "f6112c56d719018602d06cd5662cba03640d1d7acf7d3c98d004f0c0d0db0cee"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/tiago/program/chessers/gfx/gfx/core/chess.h"
+          },
+          "hashes": {
+            "sha-256": "b5c115d4eed1bccc5a6390be0f43b3d043647ae6ef975edb1522725024489ccb"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/tiago/program/chessers/gfx/gfx/core/core.h"
+          },
+          "hashes": {
+            "sha-256": "b2235af5c6c0fe6dbcb7cc6cc837973b7f2fc8018d0d5f595a367649af119309"
+          }
+        }
+      ]
+    }
+  ]
+}

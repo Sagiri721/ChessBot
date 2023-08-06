@@ -152,8 +152,7 @@ int main() {
 	// Main loop
 	while (!WindowShouldClose()) {
 
-		//Update
-		checkForClicks();
+		if(Chess::end == "") checkForClicks();
 
 		BeginDrawing();
 		
@@ -164,6 +163,20 @@ int main() {
 		DrawText("Chessboard interface", tileSize * boardSize + 5, 10, 20, LIGHTGRAY);
 		DrawText(Chess::turn ? "White to move" : "Black to move", tileSize * boardSize + 5, 32, 16, WHITE);
 		DrawText(Chess::wCheck ? "WHITE KING IN CHECK" : (Chess::bCheck ? "BLACK KING IN CHECK": ""), tileSize * boardSize + 5, 50, 16, RED);
+
+		if (Chess::end != "") {
+
+			// Draw losing screen
+			DrawRectangle(10, 10, 300, 70, WHITE);
+			DrawText(Chess::end.c_str(), 15, 15, 20, BLACK);
+		}
+
+		if (IsKeyPressed(KEY_R)) {
+
+			Chess::history.clear();
+			placePieces(utils.startPosition);
+			Chess::end = "";
+		}
 
 		EndDrawing();
 	}

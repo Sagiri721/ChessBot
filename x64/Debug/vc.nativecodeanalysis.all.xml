@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?><DEFECTS><DEFECT>
+    <SFA>
+      <FILEPATH>D:\TIAGO\program\chessers\gfx\gfx\core\</FILEPATH>
+      <FILENAME>chess.cpp</FILENAME>
+      <LINE>24</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>26817</DEFECTCODE>
+    <DESCRIPTION>Potentially expensive copy of variable 'piece' in range-for loop. Consider making it a const reference (es.71).</DESCRIPTION>
+    <FUNCTION>Chess::isSquareOccupied</FUNCTION>
+    <DECORATED>?isSquareOccupied@Chess@@QEAA_NV?$vector@UChessPiece@Utils@@V?$allocator@UChessPiece@Utils@@@std@@@std@@UVector2@@@Z</DECORATED>
+    <FUNCLINE>22</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>D:\TIAGO\program\chessers\gfx\gfx\core\</FILEPATH>
+      <FILENAME>chess.cpp</FILENAME>
+      <LINE>101</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>26817</DEFECTCODE>
+    <DESCRIPTION>Potentially expensive copy of variable 'piece' in range-for loop. Consider making it a const reference (es.71).</DESCRIPTION>
+    <FUNCTION>Chess::isSquareAttacked</FUNCTION>
+    <DECORATED>?isSquareAttacked@Chess@@QEAA_NV?$vector@UChessPiece@Utils@@V?$allocator@UChessPiece@Utils@@@std@@@std@@UVector2@@_N@Z</DECORATED>
+    <FUNCLINE>99</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>D:\TIAGO\program\chessers\gfx\gfx\core\</FILEPATH>
+      <FILENAME>utils.h</FILENAME>
+      <LINE>20</LINE>
+      <COLUMN>2</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Utils::ChessPiece::position' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Utils::ChessPiece::{ctor}</FUNCTION>
+    <DECORATED>??0ChessPiece@Utils@@QEAA@XZ</DECORATED>
+    <FUNCLINE>20</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Utils::ChessPiece::position</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>D:\TIAGO\program\chessers\gfx\gfx\core\</FILEPATH>
+      <FILENAME>utils.cpp</FILENAME>
+      <LINE>94</LINE>
+      <COLUMN>27</COLUMN>
+    </SFA>
+    <DEFECTCODE>26817</DEFECTCODE>
+    <DESCRIPTION>Potentially expensive copy of variable 'p' in range-for loop. Consider making it a const reference (es.71).</DESCRIPTION>
+    <FUNCTION>Utils::findPieceIndexFromPosition</FUNCTION>
+    <DECORATED>?findPieceIndexFromPosition@Utils@@QEAAHV?$vector@UChessPiece@Utils@@V?$allocator@UChessPiece@Utils@@@std@@@std@@UVector2@@@Z</DECORATED>
+    <FUNCLINE>89</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>D:\TIAGO\program\chessers\gfx\gfx\core\</FILEPATH>
+      <FILENAME>utils.cpp</FILENAME>
+      <LINE>113</LINE>
+      <COLUMN>27</COLUMN>
+    </SFA>
+    <DEFECTCODE>26817</DEFECTCODE>
+    <DESCRIPTION>Potentially expensive copy of variable 'p' in range-for loop. Consider making it a const reference (es.71).</DESCRIPTION>
+    <FUNCTION>Utils::findPiecesFromPieceIndex</FUNCTION>
+    <DECORATED>?findPiecesFromPieceIndex@Utils@@QEAA?AV?$vector@UChessPiece@Utils@@V?$allocator@UChessPiece@Utils@@@std@@@std@@V23@H@Z</DECORATED>
+    <FUNCLINE>109</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>D:\TIAGO\program\chessers\gfx\gfx\</FILEPATH>
+      <FILENAME>window.cpp</FILENAME>
+      <LINE>99</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>26817</DEFECTCODE>
+    <DESCRIPTION>Potentially expensive copy of variable 'piece' in range-for loop. Consider making it a const reference (es.71).</DESCRIPTION>
+    <FUNCTION>chessboard</FUNCTION>
+    <DECORATED>?chessboard@@YAXXZ</DECORATED>
+    <FUNCLINE>75</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>D:\TIAGO\program\chessers\gfx\gfx\</FILEPATH>
+      <FILENAME>window.cpp</FILENAME>
+      <LINE>137</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>26817</DEFECTCODE>
+    <DESCRIPTION>Potentially expensive copy of variable 'p' in range-for loop. Consider making it a const reference (es.71).</DESCRIPTION>
+    <FUNCTION>placePieces</FUNCTION>
+    <DECORATED>?placePieces@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z</DECORATED>
+    <FUNCLINE>132</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT></DEFECTS>
