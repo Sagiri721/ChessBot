@@ -165,7 +165,7 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
                         if (i < 0 || i >= 8) break;
                         if (i == 0 || i == 7 || i == origin.x) continue;
 
-                        if (u_chess.isSquareOccupied(pieces, Vector2{ float(i), float(yy) })) {
+                        if (Chess::occupationMask[i][yy]) {
                             
                             flag = true;
                             break;
@@ -187,13 +187,13 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
                         if (i < 0 || i >= 8) break;
                         if (i == 0 || i == 7 || i == origin.x) continue;
 
-                        if (u_chess.isSquareOccupied(pieces, Vector2{ float(i), float(yy) })) {
-
+                        if (Chess::occupationMask[i][yy]) {
                             flag = true;
                             break;
                         }
                     }
-                    if (!flag) found.push_back(Vector2{ float(xx + (distance ? -2 : 2)), float(yy) });
+
+                    if (!flag) found.push_back(Vector2{ float(xx + (distance ? 2 : -2)), float(yy) });
                 }
             }
 
@@ -314,8 +314,11 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
 
             if (!attackers) {
 
-                found.push_back(Vector2{ originPiece->position.x, originPiece->position.y + (1 * originPiece->color ? 1: -1) });
-                if(!originPiece->moved && !Chess::occupationMask[int(originPiece->position.x)][int(originPiece->position.y) + (1 * originPiece->color ? 2 : -2)]) found.push_back(Vector2{originPiece->position.x, originPiece->position.y + (1 * originPiece->color ? 2 : -2)});
+                if (!Chess::occupationMask[int(originPiece->position.x)][int(originPiece->position.y + (1 * originPiece->color ? 1 : -1))]) {
+                 
+                    found.push_back(Vector2{ originPiece->position.x, originPiece->position.y + (1 * originPiece->color ? 1 : -1) });
+                    if(!originPiece->moved && !Chess::occupationMask[int(originPiece->position.x)][int(originPiece->position.y) + (1 * originPiece->color ? 2 : -2)]) found.push_back(Vector2{originPiece->position.x, originPiece->position.y + (1 * originPiece->color ? 2 : -2)});
+                }
 
             }
             // Add pawn capture squares
