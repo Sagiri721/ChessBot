@@ -146,6 +146,8 @@ int main() {
 	InitWindow(screenWidth, screenHeight, "Chess board interface");
 	SetTargetFPS(60);
 
+	Utils::loadSettings();
+
 	setupPieces();
 	placePieces(utils.startPosition);
 
@@ -163,6 +165,10 @@ int main() {
 		DrawText("Chessboard interface", tileSize * boardSize + 5, 10, 20, LIGHTGRAY);
 		DrawText(Chess::turn ? "White to move" : "Black to move", tileSize * boardSize + 5, 32, 16, WHITE);
 		DrawText(Chess::wCheck ? "WHITE KING IN CHECK" : (Chess::bCheck ? "BLACK KING IN CHECK": ""), tileSize * boardSize + 5, 50, 16, RED);
+
+		// Show settings
+		DrawText("------------ Settings ------------", tileSize * boardSize + 5, 70, 16, LIGHTGRAY);
+		DrawText(std::string("Playing as: " + std::string(Utils::appSettings.colour ? "WHITE" : "BLACK")).c_str(), tileSize * boardSize + 5, 90, 16, LIGHTGRAY);
 
 		if (Chess::end != "") {
 

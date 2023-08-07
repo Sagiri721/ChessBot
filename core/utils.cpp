@@ -3,11 +3,14 @@
 #include <iostream>
 #include <vector>
 #include <ctype.h>
+#include <fstream>
+#include <tuple>
 
 #include "utils.h"
 #include "chess.h"
 
 Chess u_chess = Chess();
+Settings Utils::appSettings = Settings();
 
 std::vector<std::string> split(std::string s, std::string delimiter) {
     size_t pos_start = 0, pos_end, delim_len = delimiter.length();
@@ -26,6 +29,30 @@ std::vector<std::string> split(std::string s, std::string delimiter) {
 
 template <typename T> int sgn(T val) {
     return (T(0) < val) - (val < T(0));
+}
+
+void Utils::loadSettings() {
+
+    std::string line;
+    std::ifstream myfile("resources/data.ini");
+
+    if (myfile.is_open()) {
+
+        while (std::getline(myfile, line)) {
+
+            if (line == "" || line.c_str()[0] == ';') continue;
+
+            // Key / value pair
+            std::tuple<std::string, std::string> kvp = std::make_tuple(split(line, "=")[0], split(line, "=")[1]);
+            if (std::get<0>(kvp) == "colour") appSettings.colour = std::stoi(std::get<1>(kvp));
+        }
+
+        myfile.close();
+    }
+    else {
+
+        std::cout << "[SYSTEM] Unable to read settings file... Default settings will be applied" << std::endl;
+    }
 }
 
 std::vector<Utils::ChessPiece> Utils::parseFenStringToBoardInformation(std::string fenString) {

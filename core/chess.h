@@ -20,5 +20,5 @@ public:
 	bool isInCheck(std::vector<Utils::ChessPiece>, bool);
 	bool isSquareAttacked(std::vector<Utils::ChessPiece>, Vector2, bool);
 
-	void checkForMates(std::vector<Utils::ChessPiece>);
+	static void checkForMates(std::vector<Utils::ChessPiece>);
 };

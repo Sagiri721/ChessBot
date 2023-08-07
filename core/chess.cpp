@@ -2,10 +2,10 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <tuple>;
 
 #include "chess.h"
 #include "utils.h"
-#include <tuple>;
 
 Utils c_utils = Utils();
 std::vector<std::string> Chess::history;
@@ -54,6 +54,12 @@ std::vector<Utils::ChessPiece> Chess::effectuateMove(std::vector<Utils::ChessPie
 
 			pieces.at(rookIndex).position = Vector2{ move.x + (int(move.x) == 2 ? 1 : -1), move.y };
 		}
+	}
+
+	if ((pieces.at(currentPiece).index == 5 && move.y == 0) || (pieces.at(currentPiece).index == 11 && move.y == 7)) {
+
+		//Promote
+		pieces.at(currentPiece).index -= 4;
 	}
 
 	// Update move history
@@ -111,4 +117,38 @@ bool Chess::isSquareAttacked(std::vector<Utils::ChessPiece> pieces, Vector2 squa
 	}
 
 	return false;
+}
+
+void Chess::checkForMates(std::vector<Utils::ChessPiece> pieces) {
+
+	int whiteMoveCount = 0, blackMoveCount = 0;
+	bool checking_color = true;
+	for (int i = 0; i < 2; i++) {
+
+		for (Utils::ChessPiece piece : pieces) {
+
+			if (piece.color == checking_color) {
+
+				std::vector<Vector2> legalMoves = c_utils.getAllLegalPieceMoves(pieces, piece.position, false, true);
+				for (Vector2 move : legalMoves) {
+
+					if (Chess::colorMask[int(move.x)][int(move.y)] == int(checking_color)) continue;
+
+					std::tuple<Vector2, Vector2> play = std::make_tuple(piece.position, move);
+					if (checking_color) blackMoveCount++; else whiteMoveCount++;
+				}
+			}
+		}
+
+		checking_color = false;
+	}
+
+	if (whiteMoveCount == 0 && Chess::wCheck) {
+		Chess::end = "White was checkmated";
+	}
+	else if (whiteMoveCount == 0) {
+		Chess::end = "White was stalemated";
+	}
+
+	std::cout << "WHITE MOVES: " << whiteMoveCount << " BLACK MOVES: " << blackMoveCount << "\n";
 }

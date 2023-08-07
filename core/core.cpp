@@ -31,6 +31,8 @@ T randomFrom(const T min, const T max)
 
 std::tuple<Vector2, Vector2> Core::next(std::vector<Utils::ChessPiece> pieces, bool color) {
 
+    std::cout << "[Engine] finding next move...\n";
+
     //Find all legal moves
     std::vector<std::tuple<Vector2, Vector2>> moves;
     for (Utils::ChessPiece piece : pieces) {
@@ -54,8 +56,8 @@ std::tuple<Vector2, Vector2> Core::next(std::vector<Utils::ChessPiece> pieces, b
     }
     else
     {
-
-        Chess::end = "Black king was checkmated\nPress r to play again";
+        if(Chess::bCheck) Chess::end = "Black was checkmated";
+        else Chess::end = "Black was stalemated";
         return std::make_tuple(Vector2{0,0}, Vector2{0,0});
     }
 }

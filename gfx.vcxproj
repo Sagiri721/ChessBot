@@ -145,6 +145,9 @@
     <ClInclude Include="core\utils.h" />
     <ClInclude Include="headers\chess.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\data.ini" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
