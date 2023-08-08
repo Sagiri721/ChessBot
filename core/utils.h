@@ -4,7 +4,10 @@
 
 struct Settings {
 
-	bool colour = true;
+	int colour = 1;
+	bool random = false;
+	bool flipped = false;
+
 	unsigned int theme = 0, pieces = 0;
 
 	//Time controll
@@ -23,6 +26,7 @@ class Utils {
 			unsigned int index;
 			bool color;
 			bool moved = false;
+			bool enpassantable = false;
 
 			Vector2 position;
 

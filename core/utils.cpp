@@ -44,7 +44,24 @@ void Utils::loadSettings() {
 
             // Key / value pair
             std::tuple<std::string, std::string> kvp = std::make_tuple(split(line, "=")[0], split(line, "=")[1]);
-            if (std::get<0>(kvp) == "colour") appSettings.colour = std::stoi(std::get<1>(kvp));
+            if (std::get<0>(kvp) == "colour") {
+
+                int state = std::stoi(std::get<1>(kvp));
+                if (state == 2) {
+
+                    appSettings.random = true;
+                    appSettings.colour = GetRandomValue(0, 1);
+
+                }else appSettings.colour = state;
+
+                continue;
+            }
+
+            if (std::get<0>(kvp) == "flipped") {
+
+                appSettings.flipped = std::stoi(std::get<1>(kvp));
+                continue;
+            }
         }
 
         myfile.close();
@@ -192,7 +209,7 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
                         if (i < 0 || i >= 8) break;
                         if (i == 0 || i == 7 || i == origin.x) continue;
 
-                        if (Chess::occupationMask[i][yy]) {
+                        if (Chess::occupationMask[i][yy] || u_chess.isSquareAttacked(pieces, Vector2{ float(i), float(yy) }, !originPiece->color)) {
                             
                             flag = true;
                             break;
@@ -214,7 +231,7 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
                         if (i < 0 || i >= 8) break;
                         if (i == 0 || i == 7 || i == origin.x) continue;
 
-                        if (Chess::occupationMask[i][yy]) {
+                        if (Chess::occupationMask[i][yy] || u_chess.isSquareAttacked(pieces, Vector2{ float(i), float(yy) }, !originPiece->color)) {
                             flag = true;
                             break;
                         }
@@ -349,10 +366,14 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
 
             }
             // Add pawn capture squares
-            if(Chess::occupationMask[int(originPiece->position.x + 1)][int(originPiece->position.y + (1 * originPiece->color ? 1 : -1))]) 
+            if(
+                (Chess::occupationMask[int(originPiece->position.x + 1)][int(originPiece->position.y + (1 * originPiece->color ? 1 : -1))]) || 
+                (originPiece->position.x != 7 && (Chess::occupationMask[int(originPiece->position.x + 1)][int(originPiece->position.y)]) && findPieceFromPosition(pieces, Vector2{ originPiece->position.x + 1, originPiece->position.y })->enpassantable))
                 found.push_back(Vector2{ originPiece->position.x + 1, originPiece->position.y + (1 * originPiece->color ? 1 : -1) });
 
-            if (Chess::occupationMask[int(originPiece->position.x - 1)][int(originPiece->position.y + (1 * originPiece->color ? 1 : -1))])
+            if(
+                (Chess::occupationMask[int(originPiece->position.x - 1)][int(originPiece->position.y + (1 * originPiece->color ? 1 : -1))]) || 
+                (originPiece->position.x != 0 && (Chess::occupationMask[int(originPiece->position.x - 1)][int(originPiece->position.y)]) && findPieceFromPosition(pieces, Vector2{ originPiece->position.x - 1, originPiece->position.y })->enpassantable))
                 found.push_back(Vector2{ originPiece->position.x - 1, originPiece->position.y + (1 * originPiece->color ? 1 : -1) });
 
             break;

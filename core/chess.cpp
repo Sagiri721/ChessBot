@@ -65,8 +65,21 @@ std::vector<Utils::ChessPiece> Chess::effectuateMove(std::vector<Utils::ChessPie
 	// Update move history
 	c_utils.updateMoveHistory(pieces, origin, move);
 
+	// Remove en passants
+	int index = 0;
+	for (Utils::ChessPiece p : pieces) {
+		if ((p.index == 5 || p.index == 11) && p.enpassantable) pieces.at(index).enpassantable = false;
+		index++;
+	}
+
+	int distance = abs(move.y - pieces.at(currentPiece).position.y);
 	pieces.at(currentPiece).position = move;
-	if(!pieces.at(currentPiece).moved)	pieces.at(currentPiece).moved = true;
+	if (!pieces.at(currentPiece).moved) { 
+
+		pieces.at(currentPiece).moved = true;
+		if ((pieces.at(currentPiece).index == 5 || pieces.at(currentPiece).index == 11) && distance == 2)
+			pieces.at(currentPiece).enpassantable = true;
+	}
 
 	c_utils.updateOccupationMask(pieces);
 
@@ -143,12 +156,18 @@ void Chess::checkForMates(std::vector<Utils::ChessPiece> pieces) {
 		checking_color = false;
 	}
 
-	if (whiteMoveCount == 0 && Chess::wCheck) {
-		Chess::end = "White was checkmated";
-	}
-	else if (whiteMoveCount == 0) {
-		Chess::end = "White was stalemated";
-	}
+	if (Utils::appSettings.colour) {
 
-	std::cout << "WHITE MOVES: " << whiteMoveCount << " BLACK MOVES: " << blackMoveCount << "\n";
+		if (whiteMoveCount == 0 && Chess::wCheck)
+			Chess::end = "White was checkmated";
+		else if (whiteMoveCount == 0) 
+			Chess::end = "White was stalemated";
+	}
+	else {
+
+		if (blackMoveCount == 0 && Chess::bCheck)
+			Chess::end = "Black was checkmated";
+		else if (blackMoveCount == 0)
+			Chess::end = "Black was stalemated";
+	}
 }

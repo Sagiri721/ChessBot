@@ -2,7 +2,6 @@
 #include <vector>
 #include <raylib.h>
 #include <tuple>
-#include <random>
 
 #include "core.h"
 #include "utils.h"
@@ -14,19 +13,6 @@ int start_core()
 {
     std::cout << "######## Chess bot core library start! ########" << std::endl;
     return 0;
-}
-
-template <typename T>
-T randomFrom(const T min, const T max)
-{
-    static std::random_device rdev;
-    static std::default_random_engine re(rdev());
-    typedef typename std::conditional<
-        std::is_floating_point<T>::value,
-        std::uniform_real_distribution<T>,
-        std::uniform_int_distribution<T>>::type dist_type;
-    dist_type uni(min, max);
-    return static_cast<T>(uni(re));
 }
 
 std::tuple<Vector2, Vector2> Core::next(std::vector<Utils::ChessPiece> pieces, bool color) {
@@ -52,12 +38,18 @@ std::tuple<Vector2, Vector2> Core::next(std::vector<Utils::ChessPiece> pieces, b
 
     if(moves.size() != 0)
     {
-        return moves.at(randomFrom<int>(0, moves.size()-1));
+        return moves.at(GetRandomValue(0, moves.size()-1));
     }
     else
     {
-        if(Chess::bCheck) Chess::end = "Black was checkmated";
-        else Chess::end = "Black was stalemated";
+        if(Utils::appSettings.colour){
+            if(Chess::bCheck) Chess::end = "Black was checkmated";
+            else Chess::end = "Black was stalemated";
+        } else{
+            if (Chess::wCheck) Chess::end = "White was checkmated";
+            else Chess::end = "White was stalemated";
+        }
+
         return std::make_tuple(Vector2{0,0}, Vector2{0,0});
     }
 }

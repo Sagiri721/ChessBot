@@ -31,6 +31,15 @@ std::vector<Vector2> legalMoves;
 Vector2 highlight = Vector2{-1, -1};
 void checkForClicks() {
 
+	if ((Utils::appSettings.colour ? !Chess::turn : Chess::turn) && Utils::appSettings.colour != 3) {
+
+		std::cout << Utils::appSettings.colour;
+
+		// Get bot's move
+		std::tuple<Vector2, Vector2> move = Core::next(myPieces, !Chess::turn);
+		myPieces = chess.effectuateMove(myPieces, std::get<0>(move), std::get<1>(move));
+	}
+
 	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 
 		Vector2 mouse = GetMousePosition();
@@ -48,14 +57,6 @@ void checkForClicks() {
 
 			legalMoves.clear();
 			highlight = Vector2{ -1, -1 };
-
-			if (!Chess::turn) {
-
-				// Get bot's move
-				std::tuple<Vector2, Vector2> move = Core::next(myPieces, !Chess::turn);
-
-				myPieces = chess.effectuateMove(myPieces, std::get<0>(move), std::get<1>(move));
-			}
 
 			return;
 		}
@@ -167,19 +168,26 @@ int main() {
 		DrawText(Chess::wCheck ? "WHITE KING IN CHECK" : (Chess::bCheck ? "BLACK KING IN CHECK": ""), tileSize * boardSize + 5, 50, 16, RED);
 
 		// Show settings
-		DrawText("------------ Settings ------------", tileSize * boardSize + 5, 70, 16, LIGHTGRAY);
-		DrawText(std::string("Playing as: " + std::string(Utils::appSettings.colour ? "WHITE" : "BLACK")).c_str(), tileSize * boardSize + 5, 90, 16, LIGHTGRAY);
+		DrawText("---------- Settings ----------", tileSize * boardSize + 5, 70, 18, LIGHTGRAY);
+		DrawText(std::string("Playing as: " + std::string(Utils::appSettings.colour == 3 ? "BOTH" : Utils::appSettings.colour ? "WHITE" : "BLACK") + (Utils::appSettings.random ? " (random)" : "")).c_str(), tileSize * boardSize + 5, 90, 18, LIGHTGRAY);
 
 		if (Chess::end != "") {
 
 			// Draw losing screen
 			DrawRectangle(10, 10, 300, 70, WHITE);
-			DrawText(Chess::end.c_str(), 15, 15, 20, BLACK);
+			DrawText(std::string(Chess::end + "\nPress R to restart").c_str(), 15, 15, 20, BLACK);
 		}
 
 		if (IsKeyPressed(KEY_R)) {
 
-			Chess::history.clear();
+			Chess::history.clear(); 
+			Chess::turn = true;
+
+			Chess::wCheck = false;
+			Chess::bCheck = false;
+
+			if (Utils::appSettings.random) Utils::appSettings.colour = GetRandomValue(0,1);
+
 			placePieces(utils.startPosition);
 			Chess::end = "";
 		}
