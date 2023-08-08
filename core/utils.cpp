@@ -188,7 +188,7 @@ std::vector<Vector2> Utils::getAllLegalPieceMoves(std::vector<Utils::ChessPiece>
             found.push_back(Vector2{ originPiece->position.x, originPiece->position.y - 1 });
             found.push_back(Vector2{ originPiece->position.x, originPiece->position.y + 1 });
 
-            if (!originPiece->moved && !attackers) {
+            if (!originPiece->moved && !attackers && !u_chess.isInCheck(pieces, !originPiece->color)) {
 
                 // Castling
                 int xx = originPiece->position.x, yy = originPiece->position.y;
