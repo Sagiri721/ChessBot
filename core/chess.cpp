@@ -14,6 +14,7 @@ bool Chess::turn = true;
 bool Chess::wCheck = false;
 bool Chess::bCheck = false;
 std::string Chess::end = "";
+int Chess::promoteTo = 1;
 
 // Start masks
 bool Chess::occupationMask[8][8];
@@ -59,7 +60,8 @@ std::vector<Utils::ChessPiece> Chess::effectuateMove(std::vector<Utils::ChessPie
 	if ((pieces.at(currentPiece).index == 5 && move.y == 0) || (pieces.at(currentPiece).index == 11 && move.y == 7)) {
 
 		//Promote
-		pieces.at(currentPiece).index -= 4;
+		if (!pieces.at(currentPiece).color) pieces.at(currentPiece).index = promoteTo;
+		else pieces.at(currentPiece).index = promoteTo + 6;
 	}
 
 	// Update move history

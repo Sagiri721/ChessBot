@@ -7,6 +7,7 @@ public:
 
 	static bool turn, wCheck, bCheck;
 	static std::string end;
+	static int promoteTo;
 
 	static bool occupationMask[8][8];
 	static int colorMask[8][8];

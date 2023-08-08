@@ -73,6 +73,14 @@ void checkForClicks() {
 	if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) { highlight = Vector2{ -1, -1 }; legalMoves.clear();}
 }
 
+void changePromotionPiece() {
+
+	if (IsKeyPressed(KEY_ONE)) Chess::promoteTo = 1;
+	if (IsKeyPressed(KEY_TWO)) Chess::promoteTo = 2;
+	if (IsKeyPressed(KEY_THREE)) Chess::promoteTo = 3;
+	if (IsKeyPressed(KEY_FOUR)) Chess::promoteTo = 4;
+}
+
 void chessboard() {
 
 	for (int i = 0; i < boardSize; i++)
@@ -155,7 +163,11 @@ int main() {
 	// Main loop
 	while (!WindowShouldClose()) {
 
-		if(Chess::end == "") checkForClicks();
+		if (Chess::end == "") { 
+			
+			checkForClicks(); 
+			changePromotionPiece();
+		}
 
 		BeginDrawing();
 		
@@ -166,6 +178,9 @@ int main() {
 		DrawText("Chessboard interface", tileSize * boardSize + 5, 10, 20, LIGHTGRAY);
 		DrawText(Chess::turn ? "White to move" : "Black to move", tileSize * boardSize + 5, 32, 16, WHITE);
 		DrawText(Chess::wCheck ? "WHITE KING IN CHECK" : (Chess::bCheck ? "BLACK KING IN CHECK": ""), tileSize * boardSize + 5, 50, 16, RED);
+
+		DrawText("Promoting to: ", tileSize * boardSize + 10, 520, 20, RED);
+		DrawTexturePro(pieceSprite, pieces[Chess::promoteTo], Rectangle{ tileSize * boardSize + 150, 503, 50, 50}, Vector2{ 0, 0 }, 0, WHITE);
 
 		// Show settings
 		DrawText("---------- Settings ----------", tileSize * boardSize + 5, 70, 18, LIGHTGRAY);
