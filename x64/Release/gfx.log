@@ -1,12 +1,9 @@
-﻿  window.cpp
+﻿  core.cpp
 D:\TIAGO\program\chessers\gfx\gfx\core\chess.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-D:\TIAGO\program\chessers\gfx\gfx\window.cpp(39,39): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-D:\TIAGO\program\chessers\gfx\gfx\window.cpp(40,28): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-D:\TIAGO\program\chessers\gfx\gfx\window.cpp(256,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\TIAGO\program\chessers\gfx\gfx\window.cpp(257,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\TIAGO\program\chessers\gfx\gfx\core\core.cpp(41,55): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
   Generating code
-  7 of 609 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
+  3 of 704 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    7 functions had inline decision re-evaluated but remain unchanged
+    4 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   gfx.vcxproj -> D:\TIAGO\program\chessers\gfx\x64\Release\chessbot.exe

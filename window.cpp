@@ -12,6 +12,8 @@
 const int boardSize = 8;
 const int tileSize = 70;
 
+float whiteEval = 1, blackEval = 1;
+
 const Color 
 	whiteColor = Color{ 118, 150, 86, 255 }, 
 	blackColor = Color{ 238, 238, 210, 255 },
@@ -39,33 +41,9 @@ void clockTicker() {
 		if(Chess::turn) Chess::whiteTime -= timeDifference;
 		else Chess::blackTime -= timeDifference;
 
-		if (Chess::whiteTime <= 0)
-			Chess::end = "Black won on time";
-		else if (Chess::blackTime <= 0) 
-			Chess::end = "White won on time";
+		if (Chess::whiteTime <= 0) Chess::end = "Black won on time";
+		else if (Chess::blackTime <= 0) Chess::end = "White won on time";
 	}
-}
-
-struct seconds_t {
-	double value;
-};
-
-// ostream operator for your type:
-std::ostream& operator<<(std::ostream& os, const seconds_t& v) {
-	// convert to milliseconds
-	int ms = static_cast<int>(v.value * 1000.);
-
-	int h = ms / (1000 * 60 * 60);
-	ms -= h * (1000 * 60 * 60);
-
-	int m = ms / (1000 * 60);
-	ms -= m * (1000 * 60);
-
-	int s = ms / 1000;
-	ms -= s * 1000;
-
-	return os << std::setfill('0') << std::setw(2) << h << ':' << std::setw(2) << m
-		<< ':' << std::setw(2) << s << '.' << std::setw(3) << ms;
 }
 
 std::vector<Vector2> legalMoves;
@@ -79,6 +57,9 @@ void checkForClicks() {
 		// Get bot's move
 		std::tuple<Vector2, Vector2> move = Core::next(myPieces, !Chess::turn);
 		myPieces = chess.effectuateMove(myPieces, std::get<0>(move), std::get<1>(move));
+
+		whiteEval = Core::eval(myPieces, false); 
+		blackEval = Core::eval(myPieces, true);
 	}
 
 	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
@@ -95,6 +76,9 @@ void checkForClicks() {
 
 			// Move
 			myPieces = chess.effectuateMove(myPieces, highlight, target);
+
+			whiteEval = Core::eval(myPieces, false);
+			blackEval = Core::eval(myPieces, true);
 
 			legalMoves.clear();
 			highlight = Vector2{ -1, -1 };
@@ -201,6 +185,9 @@ int main() {
 	setupPieces();
 	placePieces(utils.startPosition);
 
+	whiteEval = Core::eval(myPieces, false);
+	blackEval = Core::eval(myPieces, true);
+
 	// Main loop
 	while (!WindowShouldClose()) {
 
@@ -222,6 +209,8 @@ int main() {
 
 		DrawText("Promoting to: ", tileSize * boardSize + 10, 520, 20, RED);
 		DrawTexturePro(pieceSprite, pieces[Chess::promoteTo], Rectangle{ tileSize * boardSize + 150, 503, 50, 50}, Vector2{ 0, 0 }, 0, WHITE);
+
+		DrawText(TextFormat("Engine evaluation:\nW: %f | B: %f", whiteEval, blackEval), tileSize * boardSize + 5, 200, 18, DARKGREEN);
 
 		// Show settings
 		DrawText("---------- Settings ----------", tileSize * boardSize + 5, 70, 18, LIGHTGRAY);

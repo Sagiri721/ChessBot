@@ -53,3 +53,21 @@ std::tuple<Vector2, Vector2> Core::next(std::vector<Utils::ChessPiece> pieces, b
         return std::make_tuple(Vector2{0,0}, Vector2{0,0});
     }
 }
+
+float Core::eval(std::vector<Utils::ChessPiece> pieces, bool color) {
+
+    // Evaluate this position
+    // Count material
+
+    int myMaterial = 0;
+    for (Utils::ChessPiece piece : pieces) {
+
+        if (piece.color == color) {
+
+            myMaterial += pieceValueMap.find(piece.index)->second;
+        }
+    }
+    float materialBalance = float(myMaterial) / 59;
+
+    return materialBalance;
+}

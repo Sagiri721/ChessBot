@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <map>
 
 struct Settings {
 
@@ -12,6 +13,16 @@ struct Settings {
 
 	//Time controll
 	int rawTime = 10, moveIncrement = 0;
+};
+
+const static std::map<int, int> pieceValueMap = {
+
+	{0, 0}, {6, 0},
+	{1, 9}, {7, 9},
+	{2, 3}, {8, 3},
+	{3, 3}, {9, 3},
+	{4, 5}, {10, 5},
+	{5, 1}, {11, 1},
 };
 
 class Utils {

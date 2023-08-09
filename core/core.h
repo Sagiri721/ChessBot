@@ -9,4 +9,5 @@ class Core {
 
 public:
 	static std::tuple<Vector2, Vector2> next(std::vector<Utils::ChessPiece> pieces, bool);
+	static float eval(std::vector<Utils::ChessPiece> pieces, bool);
 };
