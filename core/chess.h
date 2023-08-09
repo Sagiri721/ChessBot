@@ -9,6 +9,8 @@ public:
 	static std::string end;
 	static int promoteTo;
 
+	static float whiteTime, blackTime;
+
 	static bool occupationMask[8][8];
 	static int colorMask[8][8];
 

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <tuple>
+#include <iomanip>
 
 #include "core/utils.h"
 #include "core/chess.h"
@@ -26,6 +27,46 @@ Chess chess= Chess();
 
 // Current pieces
 std::vector<Utils::ChessPiece> myPieces;
+
+void clockTicker() {
+
+	if (GetFPS() > 0) {
+
+		if (Chess::end != "") return;
+
+		double timeDifference = float(1) / GetFPS();
+
+		if(Chess::turn) Chess::whiteTime -= timeDifference;
+		else Chess::blackTime -= timeDifference;
+
+		if (Chess::whiteTime <= 0)
+			Chess::end = "Black won on time";
+		else if (Chess::blackTime <= 0) 
+			Chess::end = "White won on time";
+	}
+}
+
+struct seconds_t {
+	double value;
+};
+
+// ostream operator for your type:
+std::ostream& operator<<(std::ostream& os, const seconds_t& v) {
+	// convert to milliseconds
+	int ms = static_cast<int>(v.value * 1000.);
+
+	int h = ms / (1000 * 60 * 60);
+	ms -= h * (1000 * 60 * 60);
+
+	int m = ms / (1000 * 60);
+	ms -= m * (1000 * 60);
+
+	int s = ms / 1000;
+	ms -= s * 1000;
+
+	return os << std::setfill('0') << std::setw(2) << h << ':' << std::setw(2) << m
+		<< ':' << std::setw(2) << s << '.' << std::setw(3) << ms;
+}
 
 std::vector<Vector2> legalMoves;
 Vector2 highlight = Vector2{-1, -1};
@@ -193,6 +234,17 @@ int main() {
 			DrawText(std::string(Chess::end + "\nPress R to restart").c_str(), 15, 15, 20, BLACK);
 		}
 
+		// Show time clocks
+		int minutes = ((int)(Chess::whiteTime / 60)) % 60;
+		int seconds = (int)(int(Chess::whiteTime) % 60);
+
+		DrawText(TextFormat("%d:%s%d", minutes, seconds < 10 ? "0":"", seconds), tileSize * boardSize + 10, 470, 30, LIGHTGRAY);
+
+		minutes = ((int)(Chess::blackTime / 60)) % 60;;
+		seconds = (int)(int(Chess::blackTime) % 60);
+
+		DrawText(TextFormat("%d:%s%d", minutes, seconds < 10 ? "0" : "", seconds), tileSize * boardSize + 10, 430, 30, LIGHTGRAY);
+
 		if (IsKeyPressed(KEY_R)) {
 
 			Chess::history.clear(); 
@@ -201,11 +253,16 @@ int main() {
 			Chess::wCheck = false;
 			Chess::bCheck = false;
 
+			Chess::whiteTime = Utils::appSettings.rawTime;
+			Chess::blackTime = Utils::appSettings.rawTime;
+
 			if (Utils::appSettings.random) Utils::appSettings.colour = GetRandomValue(0,1);
 
 			placePieces(utils.startPosition);
 			Chess::end = "";
 		}
+
+		clockTicker();
 
 		EndDrawing();
 	}

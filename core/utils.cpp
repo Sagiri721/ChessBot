@@ -41,6 +41,8 @@ void Utils::loadSettings() {
         while (std::getline(myfile, line)) {
 
             if (line == "" || line.c_str()[0] == ';') continue;
+            line.erase(remove(line.begin(), line.end(), ' '), line.end());
+            line.erase(remove(line.begin(), line.end(), '"'), line.end());
 
             // Key / value pair
             std::tuple<std::string, std::string> kvp = std::make_tuple(split(line, "=")[0], split(line, "=")[1]);
@@ -55,12 +57,16 @@ void Utils::loadSettings() {
                 }else appSettings.colour = state;
 
                 continue;
-            }
+            }else if (std::get<0>(kvp) == "flipped") appSettings.flipped = std::stoi(std::get<1>(kvp));
+            else if (std::get<0>(kvp) == "time_controll") {
 
-            if (std::get<0>(kvp) == "flipped") {
+                std::tuple<std::string, std::string> difference = std::make_tuple(split(std::get<1>(kvp), "|")[0], split(std::get<1>(kvp), "|")[1]);
+                
+                appSettings.rawTime = std::stoi(std::get<0>(difference)) * 60;
+                appSettings.moveIncrement= std::stoi(std::get<1>(difference));
 
-                appSettings.flipped = std::stoi(std::get<1>(kvp));
-                continue;
+                Chess::whiteTime = appSettings.rawTime;
+                Chess::blackTime= appSettings.rawTime;
             }
         }
 

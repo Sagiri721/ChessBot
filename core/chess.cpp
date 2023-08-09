@@ -16,6 +16,8 @@ bool Chess::bCheck = false;
 std::string Chess::end = "";
 int Chess::promoteTo = 1;
 
+float Chess::whiteTime = 0, Chess::blackTime = 0;
+
 // Start masks
 bool Chess::occupationMask[8][8];
 int Chess::colorMask[8][8];
@@ -94,6 +96,10 @@ std::vector<Utils::ChessPiece> Chess::effectuateMove(std::vector<Utils::ChessPie
 
 	// Check for checkmate
 	checkForMates(pieces);
+
+	// Add clock time
+	if (Chess::turn) Chess::whiteTime += Utils::appSettings.moveIncrement;
+	else Chess::blackTime+= Utils::appSettings.moveIncrement;
 
 	turn = !turn;
 	return pieces;
